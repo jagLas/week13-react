@@ -10,11 +10,14 @@ function ArtDescription({gallery, works}) {
             <a href={`${work.url}`}>
                 <h3>{work.title}</h3>
             </a>
-            {work.images.map(image => {
-                return (
-                    <img key={image.imageid} src={image.baseimageurl}></img>
-                )
-            })}
+            <div className="gallery">
+                {work.images.map(image => {
+                    return (
+                        <img key={image.imageid} src={image.baseimageurl}></img>
+                    )
+                })}
+            </div>
+
             <div>Description:
                 <p>{work.description}</p>
             </div>

@@ -1,3 +1,24 @@
+h1 {
+    text-align: center;
+}
+
+.nav-links{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 16px;
+    justify-content: space-evenly;
+}
+
+.nav-link{
+    text-decoration: none;
+    color: rgb(82, 82, 82);
+}
+
+.nav-link:hover{
+    text-decoration: underline;
+}
+
 .active {
     font-weight: bold;
+    color: black;
 }
