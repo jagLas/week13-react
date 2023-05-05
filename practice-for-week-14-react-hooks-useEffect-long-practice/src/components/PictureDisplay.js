@@ -64,11 +64,17 @@ function PictureDisplay ({ size, featherCount, featherColors }) {
     setSizeClass(cname);
   },[size])
 
-  const colors = [];
-  if (!featherColors || featherColors.length === 0) featherColors = [''];
-  for (let i=0; i<featherCount; i++) {
-    colors.push(featherColors[i % featherColors.length]);
-  }
+  const [colors, setColors] = useState([''])
+
+  useEffect(() => {
+    const colors = [];
+    if (!featherColors || featherColors.length === 0) featherColors = [''];
+    for (let i=0; i<featherCount; i++) {
+      colors.push(featherColors[i % featherColors.length]);
+    }
+    setColors(colors)
+  }, [featherColors, featherCount])
+
 
   return (
     <div className={`image-area ${sizeClass}`}>
