@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function ContactUs() {
   const [name, setName] = useState('');
@@ -6,10 +6,35 @@ function ContactUs() {
   const [phone, setPhone] = useState('');
   const [phoneType, setPhoneType] = useState('');
   const [comments, setComments] = useState('');
+  const [validationErrors, setValidationErrors] = useState({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    const errors = {};
+    if (name.length <= 0) {
+      errors.name = 'Please enter your Name';
+    };
+
+    if (!email.includes('@')) {
+      errors.email = 'Please provide a valid Email';
+    };
+
+    setValidationErrors(errors)
+  }, [name, email]);
 
   const onSubmit = e => {
     // Prevent the default form behavior so the page doesn't reload.
     e.preventDefault();
+
+    setHasSubmitted(true);
+
+    if(Object.keys(validationErrors).length > 0) {
+      let errorAlert = 'The following errors were found:\n';
+      for (const error in validationErrors) {
+        errorAlert += `\n* ${validationErrors[error]}`;
+      }
+      return window.alert(errorAlert)
+    }
 
     // Create a new object for the contact us information.
     const contactUsInformation = {
@@ -26,6 +51,7 @@ function ContactUs() {
     console.log(contactUsInformation);
 
     // Reset the form state.
+    setHasSubmitted(false)
     setName('');
     setEmail('');
     setPhone('');
@@ -46,6 +72,9 @@ function ContactUs() {
             value={name}
           />
         </div>
+        <div className='error'>
+          {hasSubmitted && validationErrors.name && `* ${validationErrors.name}`}
+        </div>
         <div>
           <label htmlFor='email'>Email:</label>
           <input
@@ -54,6 +83,9 @@ function ContactUs() {
             onChange={e => setEmail(e.target.value)}
             value={email}
           />
+        </div>
+        <div className='error'>
+          {hasSubmitted && validationErrors.email && `* ${validationErrors.email}`}
         </div>
         <div>
           <label htmlFor='phone'>Phone:</label>
