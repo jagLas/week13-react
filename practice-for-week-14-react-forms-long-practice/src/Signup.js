@@ -11,18 +11,51 @@ function ContactUs() {
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
+  function validateEmail() {
+
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  
+    if (!email.match(validRegex)) {
+      return false;
+    } 
+
+    return true;
+  }
+
+  function validatePhone() {
+    const validRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    if (!phone.match(validRegex)) {
+      return false;
+    } 
+
+    return true;
+  }
+
   useEffect(() => {
     const errors = {};
     if (name.length <= 0) {
       errors.name = 'Please enter your Name';
     };
 
-    if (!email.includes('@')) {
+    if (!validateEmail()) {
       errors.email = 'Please provide a valid Email';
     };
 
+    if(!validatePhone()) {
+      errors.phone = 'Please provide a valid phone number'
+    }
+
+    if(!phoneType && phone) {
+      errors.phoneType = 'Please indicate the type of phone'
+    }
+
+    if (bio.length > 280) {
+      errors.bio = 'Bio must not exceed 280 characters'
+    }
+
     setValidationErrors(errors)
-  }, [name, email]);
+  }, [name, email, phoneType, phone, email, bio]);
 
   const onSubmit = e => {
     // Prevent the default form behavior so the page doesn't reload.
@@ -114,6 +147,12 @@ function ContactUs() {
             <option>Mobile</option>
           </select>
         </div>
+        <div className='error'>
+          {hasSubmitted && validationErrors.phone && `* ${validationErrors.phone}`}
+        </div>
+        <div className='error'>
+          {hasSubmitted && validationErrors.phoneType && `* ${validationErrors.phoneType}`}
+        </div>
         <div> Role: 
           <input
             onChange={e => setRole(e.target.value)}
@@ -138,6 +177,9 @@ function ContactUs() {
             onChange={e => setBio(e.target.value)}
             value={bio}
           />
+        </div>
+        <div className='error'>
+          {hasSubmitted && validationErrors.bio && `* ${validationErrors.bio}`}
         </div>
         <div>
           Sign up for emails!
