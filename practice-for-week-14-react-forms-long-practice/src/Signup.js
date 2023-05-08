@@ -5,7 +5,9 @@ function ContactUs() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [phoneType, setPhoneType] = useState('');
-  const [comments, setComments] = useState('');
+  const [role, setRole] = useState('')
+  const [bio, setBio] = useState('');
+  const [emailSignup, setEmailSignup] = useState(true);
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -42,13 +44,15 @@ function ContactUs() {
       email,
       phone,
       phoneType,
-      comments,
+      role,
+      bio,
+      emailSignup,
       submittedOn: new Date()
     };
 
     // Ideally, we'd persist this information to a database using a RESTful API.
     // For now, though, just log the contact us information to the console.
-    console.log(contactUsInformation);
+    console.log(contactUsInformation)
 
     // Reset the form state.
     setHasSubmitted(false)
@@ -56,7 +60,9 @@ function ContactUs() {
     setEmail('');
     setPhone('');
     setPhoneType('');
-    setComments('');
+    setRole('');
+    setBio('');
+    setEmailSignup(false);
   }
 
   return (
@@ -108,13 +114,38 @@ function ContactUs() {
             <option>Mobile</option>
           </select>
         </div>
+        <div> Role: 
+          <input
+            onChange={e => setRole(e.target.value)}
+            type='radio'
+            value="instructor"
+            name="role"
+            checked={role === 'instructor'}
+          />Instructor
+          <input
+            onChange={e => setRole(e.target.value)}
+            type='radio'
+            value="student"
+            name="role"
+            checked={role === 'student'}
+          />Student
+        </div>
         <div>
-          <label htmlFor='comments'>Comments:</label>
+          <label htmlFor='bio'>Bio:</label>
           <textarea
-            id='comments'
-            name='comments'
-            onChange={e => setComments(e.target.value)}
-            value={comments}
+            id='bio'
+            name='bio'
+            onChange={e => setBio(e.target.value)}
+            value={bio}
+          />
+        </div>
+        <div>
+          Sign up for emails!
+          <input
+            type='checkbox'
+            name="emailSignup"
+            checked={emailSignup}
+            onChange={() => setEmailSignup(!emailSignup)}
           />
         </div>
         <button>Submit</button>
