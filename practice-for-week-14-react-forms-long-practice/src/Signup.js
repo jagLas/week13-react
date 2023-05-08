@@ -42,7 +42,7 @@ function ContactUs() {
       errors.email = 'Please provide a valid Email';
     };
 
-    if(!validatePhone()) {
+    if(phone && !validatePhone()) {
       errors.phone = 'Please provide a valid phone number'
     }
 
@@ -52,6 +52,10 @@ function ContactUs() {
 
     if (bio.length > 280) {
       errors.bio = 'Bio must not exceed 280 characters'
+    }
+
+    if(!phone) {
+      setPhoneType('');
     }
 
     setValidationErrors(errors)
@@ -138,6 +142,7 @@ function ContactUs() {
             name='phoneType'
             onChange={e => setPhoneType(e.target.value)}
             value={phoneType}
+            disabled={!phone}
           >
             <option value='' disabled>
               Select a phone type...
