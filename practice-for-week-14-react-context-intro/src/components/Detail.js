@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import { HoroscopeContext } from "../context/HoroscopeContext";
+
 const Detail = () => {
+  const horoscopesObj = useContext(HoroscopeContext)
+
   return (
     <div className='details'>
       <img
@@ -6,7 +11,7 @@ const Detail = () => {
         alt=''
       />
       <h2>Current Sign Name</h2>
-      <h4>Element: </h4>
+      <h4>Element: {horoscopesObj.sign}</h4>
       <h4>Traits: </h4>
     </div>
   );
